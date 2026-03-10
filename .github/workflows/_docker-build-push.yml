@@ -63,29 +63,16 @@ jobs:
         with:
           images: ${{ env.IMAGE_NAME }}
 
-      - name: Setup repo
-        uses: blockscout/actions/.github/actions/setup-multiarch-buildx@main
-        id: setup
-        with:
-          docker-image: ${{ env.IMAGE_NAME }}
-          docker-username: ${{ github.actor }}
-          docker-password: ${{ secrets.GITHUB_TOKEN }}
-          docker-remote-multi-platform: true
-          docker-arm-host: ${{ secrets.ARM_RUNNER_HOSTNAME }}
-          docker-arm-host-key: ${{ secrets.ARM_RUNNER_KEY }}
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
           context: ${{ inputs.docker-context-path || format('{0}/', inputs.service-name) }}
           file: ${{ inputs.dockerfile-path || format('{0}/Dockerfile', inputs.service-name) }}
-          build-contexts: |
-            proto=proto
           push: ${{ steps.tags_extractor.outputs.tags != '' }}
           tags: ${{ steps.tags_extractor.outputs.tags }}
-          platforms: |
-            linux/amd64
-            linux/arm64/v8
           labels: ${{ steps.setup.outputs.docker-labels }}
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:build-cache
           cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,ref={0}:build-cache,mode=max', env.IMAGE_NAME) || '' }}
