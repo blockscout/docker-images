@@ -9,7 +9,6 @@ on:
       - .github/workflows/keycloak.yml
 
 env:
-  REGISTRY: ghcr.io
   IMAGE_NAME: blockscout/keycloak
 
 defaults:
@@ -22,6 +21,3 @@ jobs:
     uses: ./.github/workflows/_docker-build-push.yml
     with:
       service-name: keycloak
-    secrets:
-      ARM_RUNNER_HOSTNAME: ${{ secrets.ARM_RUNNER_HOSTNAME }}
-      ARM_RUNNER_KEY: ${{ secrets.ARM_RUNNER_KEY }}

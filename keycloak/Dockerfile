@@ -2,7 +2,7 @@
 ARG KEYCLOAK_VERSION=26.3.2
 
 # Build the provider
-FROM maven:3.8.1-openjdk-17-slim AS keycloak-pii-data-encryption
+FROM maven:3.9.13-sapmachine-17 AS keycloak-pii-data-encryption
 ARG KEYCLOAK_VERSION # Dockerfile peculiarity that requires ARG defined before FROM to be re-declared afterwards if we want to use it in the stage
 WORKDIR /app
 RUN apt-get update && apt-get install -y git && apt-get clean
