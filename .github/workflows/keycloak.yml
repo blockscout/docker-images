@@ -1,0 +1,27 @@
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'keycloak/v*'
+    paths:
+      - keycloak/**
+      - .github/workflows/keycloak.yml
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: blockscout/keycloak
+
+defaults:
+  run:
+    working-directory: keycloak
+
+jobs:
+  push:
+    name: Docker build and docker push
+    uses: ./.github/workflows/_docker-build-push.yml
+    with:
+      service-name: keycloak
+    secrets:
+      ARM_RUNNER_HOSTNAME: ${{ secrets.ARM_RUNNER_HOSTNAME }}
+      ARM_RUNNER_KEY: ${{ secrets.ARM_RUNNER_KEY }}
