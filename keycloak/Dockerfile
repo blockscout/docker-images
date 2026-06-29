@@ -1,5 +1,5 @@
 # ARG defined before FROM in multi-staged Dockerfile is shared among the stages
-ARG KEYCLOAK_VERSION=26.5.5
+ARG KEYCLOAK_VERSION=26.6.4
 
 # Build the provider
 FROM maven:3.9.13-sapmachine-17 AS keycloak-pii-data-encryption
