@@ -9,4 +9,4 @@ RUN apk add --no-cache ca-certificates wget curl && update-ca-certificates && \
     apk add --allow-untrusted op-alt-da.apk
 
 EXPOSE 3100
-ENTRYPOINT ["/usr/local/bin/da-server"]
+ENTRYPOINT ["/usr/bin/op-alt-da"]
