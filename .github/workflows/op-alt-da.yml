@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'op-alt-da/v*'
+    paths:
+      - op-alt-da/**
+      - .github/workflows/op-alt-da.yml
+
+env:
+  IMAGE_NAME: blockscout/op-alt-da
+
+defaults:
+  run:
+    working-directory: op-alt-da
+
+jobs:
+  push:
+    name: Docker build and docker push
+    uses: ./.github/workflows/_docker-build-push.yml
+    with:
+      service-name: op-alt-da
