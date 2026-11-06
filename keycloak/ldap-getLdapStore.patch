@@ -1,0 +1,16 @@
+diff --git a/src/main/java/my/unifi/eset/keycloak/piidataencryption/ldap/EncryptedLDAPStorageProviderFactory.java b/src/main/java/my/unifi/eset/keycloak/piidataencryption/ldap/EncryptedLDAPStorageProviderFactory.java
+index d34dcb5..262c882 100644
+--- a/src/main/java/my/unifi/eset/keycloak/piidataencryption/ldap/EncryptedLDAPStorageProviderFactory.java
++++ b/src/main/java/my/unifi/eset/keycloak/piidataencryption/ldap/EncryptedLDAPStorageProviderFactory.java
+@@ -48,8 +48,9 @@ public class EncryptedLDAPStorageProviderFactory extends LDAPStorageProviderFact
+ 
+     @Override
+     public LDAPStorageProvider create(KeycloakSession session, ComponentModel model) {
+-        Map<ComponentModel, LDAPConfigDecorator> configDecorators = getLDAPConfigDecorators(session, model);
+-        LDAPIdentityStore ldapIdentityStore = this.ldapStoreRegistryOverride.getLdapStore(session, model, configDecorators);
++        // Reuse the parent's store creation (registry + LDAP metrics timer) so we don't depend
++        // on the LDAPIdentityStoreRegistry.getLdapStore signature, which gained a metrics-timer parameter in newer Keycloak.
++        LDAPIdentityStore ldapIdentityStore = super.create(session, model).getLdapIdentityStore();
+         return new EncryptedLDAPStorageProvider(this, session, model, ldapIdentityStore);
+     }
+ 

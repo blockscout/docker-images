@@ -7,6 +7,9 @@ ARG KEYCLOAK_VERSION # Dockerfile peculiarity that requires ARG defined before F
 WORKDIR /app
 RUN apt-get update && apt-get install -y git && apt-get clean
 RUN git clone https://github.com/MLukman/Keycloak-PII-Data-Encryption-Provider.git .
+# Compatibility fix for newer Keycloak (LDAPIdentityStoreRegistry.getLdapStore signature change)
+COPY ldap-getLdapStore.patch /tmp/
+RUN git apply /tmp/ldap-getLdapStore.patch
 RUN mvn clean package -Dkeycloak.version=$KEYCLOAK_VERSION
 
 ################################################################################
