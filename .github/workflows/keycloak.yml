@@ -21,3 +21,7 @@ jobs:
     uses: ./.github/workflows/_docker-build-push.yml
     with:
       service-name: keycloak
+    secrets:
+      # read access to the private blockscout/keycloak-user-api-extension repository
+      build-secrets: |
+        github_token=${{ secrets.KEYCLOAK_USER_API_EXTENSION_TOKEN }}
