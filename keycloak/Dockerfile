@@ -19,10 +19,10 @@ RUN mvn clean package -Dkeycloak.version=$KEYCLOAK_VERSION
 # Build Blockscout endpoints for atomic updates of user data (https://github.com/blockscout/keycloak-user-api-extension)
 FROM maven:3.9.13-sapmachine-17 AS keycloak-user-api-extension
 ARG KEYCLOAK_VERSION
-ARG KEYCLOAK_USER_API_EXTENSION_VERSION=v0.4.1
+ARG KEYCLOAK_USER_API_EXTENSION_VERSION=v0.4.2
 # The commit of the version tag. A tag can be moved to another commit, and a layer cached for the command would hide
 # that, so the build fails if the tag does not point to this commit.
-ARG KEYCLOAK_USER_API_EXTENSION_COMMIT=b8ce1beb4ffdd83e2b998b028de8e0c7a0218c73
+ARG KEYCLOAK_USER_API_EXTENSION_COMMIT=1994cfb23dbb80ada03e26a20d0db72ccb0b5948
 WORKDIR /app
 RUN apt-get update && apt-get install -y git && apt-get clean
 # The repository is private. The token is passed as a BuildKit secret and only to this git command,
