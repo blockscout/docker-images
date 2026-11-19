@@ -22,6 +22,10 @@ on:
       dockerfile-path:
         required: false
         type: string
+    secrets:
+      build-secrets:
+        description: 'Secrets for the docker build, one `id=value` per line, available in `RUN --mount=type=secret,id=<id>`'
+        required: false
     outputs:
       tag-value:
         description: 'A semver compatible version retrieved from the tag'
@@ -76,5 +80,6 @@ jobs:
           push: ${{ steps.tags_extractor.outputs.tags != '' }}
           tags: ${{ steps.tags_extractor.outputs.tags }}
           labels: ${{ steps.setup.outputs.docker-labels }}
+          secrets: ${{ secrets.build-secrets }}
           cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:build-cache
           cache-to: ${{ github.ref == 'refs/heads/main' && format('type=registry,ref={0}:build-cache,mode=max', env.IMAGE_NAME) || '' }}
